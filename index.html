@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="zh-CN" data-type="software" data-radius="round" data-buttons="pill" data-motion>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>开口：中文学习者的英语口语训练营</title>
+  <meta name="description" content="每天 40 分钟，用五步闭环完成听懂、精读、梳理、开口和复盘，并保存每次录音与进步记录。">
+  <meta name="page-type" content="software">
+  <meta name="site-kind" content="software">
+  <meta name="theme-color" content="#e6dbc7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="开口：英语口语训练营">
+  <meta property="og:description" content="从听懂一段素材，到不看稿讲出来。每天 40 分钟，完成一次完整练习。">
+  <meta property="og:image" content="icons/share.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/system.css">
+  <style>
+    :root {
+      --p-bg: #e6dbc7; --p-surface: #ddd0b9; --p-ink: #062b8a; --p-muted: #3253a4;
+      --p-accent: #062b8a; --p-accent-ink: #e6dbc7; --p-action: #062b8a; --p-action-ink: #e6dbc7;
+      --p-inv-bg: #062b8a; --p-inv-surface: #153a90; --p-inv-ink: #e6dbc7; --p-inv-muted: #c6c7ba;
+      --p-inv-accent: #e6dbc7; --p-inv-accent-ink: #062b8a; --p-inv-action: #e6dbc7; --p-inv-action-ink: #062b8a;
+      --font-display: "Familjen Grotesk", "Microsoft YaHei", sans-serif;
+      --font-text: "Familjen Grotesk", "Microsoft YaHei", sans-serif;
+      --font-mono: "IBM Plex Mono", "Microsoft YaHei", monospace;
+      --display-weight: 400;
+      --display-tracking: -0.04em;
+      --page-gut: clamp(20px, 5.6vw, 80px);
+      --page-max: 1280px;
+      --soft-line: color-mix(in oklab, var(--p-ink) 13%, transparent);
+      --cream-deep: #d8c8ad;
+      --cream-light: #f0e7d7;
+      --green: #285a45;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--p-bg); color: var(--p-ink); font-family: var(--font-text); }
+    button, input, textarea, select { font: inherit; }
+    a { color: inherit; }
+    .site-wrap { width: min(calc(100% - var(--page-gut) * 2), var(--page-max)); margin-inline: auto; }
+    .site-nav {
+      position: fixed; inset: 0 0 auto; z-index: 20; height: 72px;
+      border-bottom: 1px solid var(--soft-line); background: color-mix(in oklab, var(--p-bg) 96%, transparent);
+    }
+    .site-nav .site-wrap { height: 100%; display: flex; align-items: center; gap: 32px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 20px; letter-spacing: -.04em; font-weight: 600; }
+    .brand-mark {
+      width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%;
+      background: var(--p-ink); color: var(--p-bg); font-size: 16px; font-weight: 600;
+      box-shadow: inset 0 0 0 7px var(--p-bg), inset 0 0 0 9px var(--p-ink);
+    }
+    .brand-mark::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--p-bg); }
+    .nav-links { display: flex; align-items: center; gap: 28px; margin-left: auto; }
+    .nav-links a { text-decoration: none; font-size: 15px; font-weight: 500; padding-block: 8px; }
+    .nav-links a:hover { text-decoration: underline; text-underline-offset: 6px; }
+    .nav-actions { display: flex; align-items: center; gap: 14px; }
+    .nav-actions .plain { font-size: 15px; font-weight: 500; text-decoration: none; }
+    .btn {
+      border: 1px solid var(--p-ink); border-radius: 999px; min-height: 48px; padding: 0 22px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      font-size: 16px; font-weight: 600; text-decoration: none; cursor: pointer;
+      transition: transform .18s ease, background .18s ease, color .18s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(1px); }
+    .btn--primary { background: var(--p-ink); color: var(--p-bg); border-color: var(--p-ink); }
+    .btn--secondary { background: transparent; color: var(--p-ink); }
+    .btn--light { background: var(--p-bg); color: var(--p-ink); border-color: var(--p-bg); }
+    .menu-toggle { display: none; width: 44px; height: 44px; border: 1px solid var(--p-ink); background: transparent; color: var(--p-ink); border-radius: 50%; }
+    .menu-toggle span, .menu-toggle::before, .menu-toggle::after { content: ""; display: block; width: 17px; height: 1.5px; background: currentColor; margin: 4px auto; transition: .2s; }
+    main > section {
+      width: 100%; min-height: 100svh; padding: 144px 0 72px; display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .hero { min-height: 100svh; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(360px, .98fr); align-items: center; gap: clamp(32px, 7vw, 96px); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 26px; color: var(--p-muted); font-size: 13px; font-weight: 600; letter-spacing: .02em; }
+    .eyebrow::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--p-ink); box-shadow: 0 0 0 5px color-mix(in oklab, var(--p-ink) 12%, transparent); }
+    h1, h2 { font-family: var(--font-display); font-weight: 400; letter-spacing: -.055em; }
+    .hero h1 { max-width: 650px; margin: 0; font-size: clamp(42px, 4.2vw, 66px); line-height: 1; letter-spacing: -.05em; }
+    .hero h1 span { display: block; color: var(--p-muted); }
+    .hero-lead { max-width: 600px; margin: 30px 0 0; font-size: clamp(18px, 1.6vw, 23px); line-height: 1.55; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .hero-facts { display: flex; gap: 0; margin: 52px 0 0; padding: 0; list-style: none; max-width: 640px; border-top: 1px solid var(--soft-line); }
+    .hero-facts li { flex: 1; padding: 18px 22px 0 0; }
+    .hero-facts strong { display: block; font-size: 24px; letter-spacing: -.04em; }
+    .hero-facts span { color: var(--p-muted); font-size: 13px; }
+    .hero-visual { display: grid; place-items: center; position: relative; min-height: 640px; }
+    .orbit { position: absolute; border: 1px solid color-mix(in oklab, var(--p-ink) 18%, transparent); border-radius: 50%; width: 560px; height: 560px; }
+    .orbit::before, .orbit::after { content: ""; position: absolute; border-radius: 50%; border: 1px solid color-mix(in oklab, var(--p-ink) 12%, transparent); inset: 64px; }
+    .orbit::after { inset: 132px; }
+    .float-note {
+      position: absolute; z-index: 2; max-width: 190px; padding: 13px 15px; border: 1px solid var(--soft-line);
+      background: var(--cream-light); border-radius: 14px; font-size: 13px; line-height: 1.45;
+      box-shadow: 0 14px 40px color-mix(in oklab, var(--p-ink) 10%, transparent);
+    }
+    .float-note strong { display: block; font-size: 15px; margin-bottom: 2px; }
+    .float-note--one { left: 4%; top: 18%; transform: rotate(-4deg); }
+    .float-note--two { right: 1%; bottom: 15%; transform: rotate(3deg); }
+    .phone {
+      position: relative; z-index: 1; width: min(342px, 84vw); height: 670px; padding: 10px;
+      border-radius: 46px; background: var(--p-ink); box-shadow: 0 34px 90px color-mix(in oklab, var(--p-ink) 24%, transparent);
+    }
+    .phone::before { content: ""; position: absolute; z-index: 2; top: 18px; left: 50%; transform: translateX(-50%); width: 94px; height: 24px; border-radius: 20px; background: var(--p-ink); }
+    .phone-screen { height: 100%; overflow: hidden; border-radius: 37px; background: var(--cream-light); position: relative; }
+    .phone-status { padding: 18px 21px 0; display: flex; justify-content: space-between; font: 500 11px/1 var(--font-mono); }
+    .phone-appbar { padding: 30px 21px 10px; display: flex; justify-content: space-between; align-items: center; }
+    .phone-appbar .hello { font-size: 22px; letter-spacing: -.04em; font-weight: 600; }
+    .avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--p-ink); color: var(--p-bg); font-weight: 600; font-size: 14px; }
+    .phone-content { padding: 8px 16px 88px; }
+    .today-card { padding: 20px; border-radius: 24px; color: var(--p-bg); background: var(--p-ink); }
+    .today-card .mini-row { display: flex; justify-content: space-between; align-items: flex-start; }
+    .today-card small { font-size: 12px; color: color-mix(in oklab, var(--p-bg) 68%, var(--p-ink)); }
+    .today-card h3 { margin: 6px 0 0; font-size: 25px; font-weight: 500; letter-spacing: -.045em; }
+    .progress-dial { width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 600; background: conic-gradient(var(--p-bg) 0 62%, color-mix(in oklab, var(--p-bg) 22%, transparent) 62%); position: relative; }
+    .progress-dial::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: var(--p-ink); }
+    .progress-dial span { position: relative; z-index: 1; }
+    .task-list { display: grid; gap: 0; margin-top: 16px; }
+    .task-row { display: flex; gap: 11px; align-items: center; padding: 11px 0; border-top: 1px solid #eee4d2; }
+    .check { flex: none; width: 22px; height: 22px; border: 1.5px solid var(--p-ink); border-radius: 50%; display: grid; place-items: center; font-size: 12px; }
+    .task-row.done .check { background: var(--p-ink); color: var(--p-bg); }
+    .task-row.done span { opacity: .58; text-decoration: line-through; }
+    .task-row p { margin: 0; font-size: 13px; line-height: 1.35; }
+    .task-row em { margin-left: auto; color: #506478; font-style: normal; font-size: 11px; }
+    .phone-bottom { position: absolute; bottom: 14px; left: 12px; right: 12px; height: 62px; display: flex; align-items: center; justify-content: space-around; border-radius: 21px; background: color-mix(in oklab, var(--p-bg) 92%, var(--p-ink)); border: 1px solid #e7dac6; }
+    .phone-bottom span { font-size: 20px; opacity: .46; }
+    .phone-bottom .active { width: 42px; height: 42px; border-radius: 50%; background: var(--p-ink); color: var(--p-bg); display: grid; place-items: center; opacity: 1; }
+    .section-head { display: grid; grid-template-columns: minmax(0, .9fr) minmax(280px, .55fr); align-items: end; gap: 48px; margin-bottom: 54px; }
+    .section-head h2 { margin: 0; font-size: clamp(36px, 5.3vw, 76px); line-height: 1; }
+    .section-head p { margin: 0 0 5px; font-size: 17px; line-height: 1.6; max-width: 450px; }
+    .section-index { display: block; margin-bottom: 15px; color: var(--p-muted); font: 500 12px/1 var(--font-mono); }
+    .loop-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(28px, 6vw, 86px); align-items: center; }
+    .step-list { border-top: 1px solid var(--soft-line); }
+    .step-row { display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 18px; padding: 20px 0; border-bottom: 1px solid var(--soft-line); }
+    .step-num { font: 500 12px/1 var(--font-mono); color: var(--p-muted); }
+    .step-row strong { font-size: 19px; font-weight: 500; }
+    .step-row span { color: var(--p-muted); font-size: 14px; }
+    .app-window { padding: 12px; border-radius: 28px; border: 1px solid var(--soft-line); background: var(--cream-light); box-shadow: 0 30px 70px color-mix(in oklab, var(--p-ink) 10%, transparent); }
+    .browser-bar { display: flex; align-items: center; gap: 6px; padding: 3px 5px 12px; }
+    .browser-bar i { width: 8px; height: 8px; border-radius: 50%; background: color-mix(in oklab, var(--p-ink) 24%, transparent); }
+    .browser-bar span { margin-left: auto; margin-right: auto; font: 500 10px/1 var(--font-mono); color: var(--p-muted); }
+    .session-ui { display: grid; grid-template-columns: 170px 1fr; min-height: 490px; border-radius: 18px; overflow: hidden; background: white; }
+    .session-side { padding: 24px 18px; background: #fbf8f2; border-right: 1px solid #eae1d4; }
+    .session-side p { margin: 0 0 18px; font: 500 10px/1 var(--font-mono); color: var(--p-muted); }
+    .session-side a { display: block; padding: 11px 10px; border-radius: 9px; font-size: 12px; text-decoration: none; color: #44526a; }
+    .session-side a.active { background: var(--p-ink); color: var(--p-bg); }
+    .session-main { padding: 24px; }
+    .session-main .session-title { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .session-main .session-title h3 { margin: 0; font-size: 20px; font-weight: 500; letter-spacing: -.04em; }
+    .session-main .session-title span { font: 500 10px/1.3 var(--font-mono); color: var(--p-muted); }
+    .video-stage { aspect-ratio: 16 / 9; border-radius: 14px; background: var(--p-ink); color: var(--p-bg); position: relative; overflow: hidden; display: grid; place-items: center; }
+    .video-stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 62% 38%, rgba(230,219,199,.24), transparent 40%), linear-gradient(135deg, transparent 35%, rgba(230,219,199,.09) 35% 36%, transparent 36%); }
+    .play { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--p-bg); color: var(--p-ink); position: relative; z-index: 1; font-size: 15px; }
+    .track { margin-top: 10px; display: flex; align-items: center; gap: 9px; color: var(--p-muted); font: 500 9px/1 var(--font-mono); }
+    .track-line { height: 3px; flex: 1; border-radius: 4px; background: #dfe3e8; overflow: hidden; }
+    .track-line i { display: block; height: 100%; width: 38%; background: var(--p-ink); }
+    .session-note { display: grid; grid-template-columns: 1fr auto; gap: 16px; margin-top: 18px; align-items: center; }
+    .session-note p { margin: 0; font-size: 12px; color: #59657b; line-height: 1.55; }
+    .mini-btn { border: 1px solid var(--p-ink); background: var(--p-ink); color: var(--p-bg); border-radius: 9px; padding: 9px 12px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .feedback-layout { display: grid; grid-template-columns: 1.05fr .95fr; gap: 26px; }
+    .recording-card { min-height: 530px; border-radius: 30px; padding: clamp(24px, 4vw, 44px); background: var(--p-ink); color: var(--p-bg); display: flex; flex-direction: column; }
+    .recording-card .meta { display: flex; align-items: center; justify-content: space-between; font: 500 11px/1 var(--font-mono); }
+    .live-dot { display: inline-flex; align-items: center; gap: 8px; }
+    .live-dot::before { content: ""; width: 8px; height: 8px; background: #eaa184; border-radius: 50%; box-shadow: 0 0 0 5px rgba(234,161,132,.15); }
+    .record-topic { margin: 42px 0 0; font-size: clamp(29px, 3.2vw, 44px); line-height: 1.08; letter-spacing: -.05em; }
+    .waveform { display: flex; align-items: center; gap: 5px; height: 128px; margin: 48px 0 28px; }
+    .waveform i { display: block; width: 5px; border-radius: 5px; background: #a9b4e0; animation: wave 1.4s ease-in-out infinite alternate; }
+    .waveform i:nth-child(3n) { animation-delay: -.4s; }
+    .waveform i:nth-child(4n) { animation-delay: -.8s; }
+    @keyframes wave { from { height: 18px; opacity: .48; } to { height: 78px; opacity: 1; } }
+    .transcript-preview { margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(230,219,199,.2); font-size: 15px; line-height: 1.7; color: color-mix(in oklab, var(--p-bg) 76%, var(--p-ink)); }
+    .feedback-card { border-radius: 30px; border: 1px solid var(--soft-line); background: var(--cream-light); padding: clamp(24px, 4vw, 40px); }
+    .score-top { display: flex; gap: 20px; align-items: center; padding-bottom: 26px; border-bottom: 1px solid var(--soft-line); }
+    .score { width: 106px; height: 106px; flex: none; border-radius: 50%; display: grid; place-items: center; position: relative; background: conic-gradient(var(--p-ink) 0 78%, #d5c8b5 78%); }
+    .score::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--cream-light); }
+    .score div { position: relative; text-align: center; }
+    .score b { display: block; font-size: 34px; line-height: 1; font-weight: 500; letter-spacing: -.05em; }
+    .score small { font: 500 10px/1.5 var(--font-mono); color: var(--p-muted); }
+    .score-copy h3 { margin: 0 0 7px; font-size: 23px; font-weight: 500; letter-spacing: -.04em; }
+    .score-copy p { margin: 0; color: #506078; font-size: 14px; line-height: 1.5; }
+    .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0; }
+    .metric { padding: 14px; border-radius: 13px; background: color-mix(in oklab, var(--p-bg) 72%, transparent); }
+    .metric small { display: block; color: var(--p-muted); font-size: 11px; }
+    .metric strong { font-size: 22px; font-weight: 500; }
+    .fix-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; padding: 13px 0; border-top: 1px solid var(--soft-line); font-size: 13px; }
+    .fix-row span:last-child { text-align: right; color: #506078; }
+    .fix-row i { color: var(--p-muted); font-style: normal; }
+    .progress-board { border: 1px solid var(--soft-line); border-radius: 30px; padding: clamp(22px, 4vw, 40px); background: var(--cream-light); }
+    .chart-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 20px; }
+    .chart-head h3 { margin: 0; font-size: 20px; font-weight: 500; }
+    .chart-head p { margin: 0; color: var(--p-muted); font-size: 13px; }
+    .line-chart { width: 100%; height: 250px; overflow: visible; }
+    .line-chart .grid-line { stroke: color-mix(in oklab, var(--p-ink) 12%, transparent); stroke-width: 1; }
+    .line-chart .area { fill: color-mix(in oklab, var(--p-ink) 10%, transparent); }
+    .line-chart .graph { fill: none; stroke: var(--p-ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .line-chart .point { fill: var(--cream-light); stroke: var(--p-ink); stroke-width: 2.5; }
+    .line-chart text { fill: var(--p-muted); font: 500 10px var(--font-mono); }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--soft-line); margin-top: 4px; }
+    .stat-grid div { padding: 18px 16px 0 0; }
+    .stat-grid strong { display: block; font-size: 26px; font-weight: 500; letter-spacing: -.04em; }
+    .stat-grid span { color: var(--p-muted); font-size: 12px; }
+    .week-bars { display: flex; align-items: end; gap: 9px; height: 150px; margin-top: 28px; padding: 0 8px; border-bottom: 1px solid var(--soft-line); }
+    .week-bars i { flex: 1; min-width: 4px; border-radius: 5px 5px 0 0; background: var(--p-ink); opacity: .88; transition: height .3s ease; }
+    .week-bars i:nth-child(3n) { opacity: .42; }
+    .challenge-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 28px; }
+    .challenge-card { padding: clamp(24px, 4vw, 40px); border-radius: 30px; background: var(--green); color: #f0e7d7; }
+    .challenge-card .kicker { color: #b8d2c2; font: 500 11px/1 var(--font-mono); }
+    .challenge-card h3 { margin: 22px 0 0; font-size: clamp(28px, 3.2vw, 42px); line-height: 1.1; font-weight: 400; letter-spacing: -.05em; }
+    .challenge-card p { color: #c9ddd0; font-size: 15px; line-height: 1.6; }
+    .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin: 28px 0 22px; }
+    .day-grid span { aspect-ratio: 1; border-radius: 9px; display: grid; place-items: center; border: 1px solid rgba(240,231,215,.24); color: #d6e5db; font: 500 10px/1 var(--font-mono); }
+    .day-grid span.done { background: #f0e7d7; color: var(--green); border-color: #f0e7d7; }
+    .day-grid span.today { box-shadow: 0 0 0 2px #eaa184; border-color: #eaa184; }
+    .pk-card { padding: clamp(24px, 4vw, 40px); border-radius: 30px; border: 1px solid var(--soft-line); background: var(--cream-light); }
+    .pk-versus { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 18px; margin: 30px 0; }
+    .pk-person { display: grid; justify-items: center; text-align: center; gap: 9px; }
+    .pk-avatar { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; font-weight: 600; border: 1px solid var(--p-ink); }
+    .pk-person strong { font-size: 15px; font-weight: 500; }
+    .pk-person span { color: var(--p-muted); font-size: 12px; }
+    .vs { font: 500 11px/1 var(--font-mono); color: var(--p-muted); }
+    .pk-question { padding: 20px; border-radius: 16px; background: var(--p-bg); font-size: 17px; line-height: 1.55; }
+    .pk-question small { display: block; margin-bottom: 6px; color: var(--p-muted); font: 500 10px/1 var(--font-mono); }
+    .limits-grid { display: grid; grid-template-columns: .72fr 1.28fr; gap: clamp(30px, 7vw, 100px); align-items: start; }
+    .limits-intro h2 { margin: 0; font-size: clamp(36px, 5.3vw, 72px); line-height: 1.02; }
+    .limits-intro p { margin: 24px 0 0; color: var(--p-muted); line-height: 1.65; }
+    .limit-rows { border-top: 1px solid var(--soft-line); }
+    .limit-row { display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--soft-line); }
+    .limit-row strong { font-size: 16px; font-weight: 500; }
+    .limit-row p { margin: 0; color: #43577b; line-height: 1.6; }
+    footer.site-footer { min-height: 100svh; padding: 144px 0 42px; display: flex; flex-direction: column; justify-content: space-between; background: var(--p-ink); color: var(--p-bg); }
+    .footer-cta { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; padding-bottom: 80px; }
+    .footer-cta h2 { margin: 0; font-size: clamp(45px, 8.4vw, 124px); line-height: .92; letter-spacing: -.065em; }
+    .footer-meta { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: end; padding-top: 32px; border-top: 1px solid rgba(230,219,199,.2); }
+    .footer-meta p { margin: 0; max-width: 440px; color: #bfc6da; font-size: 14px; line-height: 1.6; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 18px 28px; justify-content: flex-end; font-size: 14px; }
+    .footer-links a { text-decoration: none; }
+    .footer-links a:hover { text-decoration: underline; text-underline-offset: 5px; }
+    .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom)); transform: translate(-50%, 100px); z-index: 90; padding: 12px 17px; border-radius: 12px; background: var(--p-ink); color: var(--p-bg); font-size: 14px; opacity: 0; transition: .25s ease; }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    @media (max-width: 960px) {
+      main > section { padding-top: 108px; align-items: flex-start; }
+      .nav-links, .nav-actions .plain { display: none; }
+      .nav-actions { margin-left: auto; }
+      .menu-toggle { display: block; }
+      .hero-grid, .loop-grid, .feedback-layout, .challenge-grid, .limits-grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 118px; }
+      .hero-grid { align-items: start; }
+      .hero-visual { min-height: 600px; order: 2; }
+      .hero-copy { order: 1; }
+      .orbit { width: 510px; height: 510px; }
+      .section-head { grid-template-columns: 1fr; gap: 18px; }
+      .session-ui { grid-template-columns: 1fr; }
+      .session-side { display: none; }
+      .footer-cta { grid-template-columns: 1fr; align-items: start; }
+      .footer-meta { grid-template-columns: 1fr; }
+      .footer-links { justify-content: flex-start; }
+    }
+    @media (max-width: 640px) {
+      :root { --page-gut: 20px; }
+      .site-nav { height: 62px; }
+      .brand { font-size: 18px; }
+      .nav-actions .btn { display: none; }
+      main > section { padding-top: 88px; padding-bottom: 40px; align-items: flex-start; }
+      .hero { min-height: 100svh; }
+      .eyebrow { margin-bottom: 14px; font-size: 12px; }
+      .hero h1 { font-size: clamp(30px, 8.2vw, 38px); line-height: 1.02; }
+      .hero-lead { font-size: 15px; line-height: 1.5; margin-top: 17px; }
+      .hero-actions { display: grid; grid-template-columns: 1fr; margin-top: 22px; gap: 9px; }
+      .hero-actions .btn { width: 100%; }
+      .hero-facts { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 20px; }
+      .hero-facts li { padding-right: 10px; }
+      .hero-facts strong { font-size: 17px; }
+      .hero-facts span { font-size: 11px; line-height: 1.35; display: block; }
+      .hero-visual { min-height: 278px; height: 278px; margin: 4px 0 0; overflow: hidden; }
+      .phone { width: 100%; height: 262px; border-radius: 23px; padding: 7px; box-shadow: 0 18px 44px color-mix(in oklab, var(--p-ink) 16%, transparent); }
+      .phone::before, .phone-status, .phone-appbar, .phone-bottom { display: none; }
+      .phone-screen { border-radius: 18px; }
+      .phone-content { padding: 7px; }
+      .today-card { border-radius: 14px; padding: 13px 14px; }
+      .today-card h3 { font-size: 18px; line-height: 1.06; }
+      .today-card .mini-row { gap: 10px; }
+      .progress-dial { width: 48px; height: 48px; font-size: 10px; }
+      .progress-dial::before { inset: 5px; }
+      .task-list { margin-top: 5px; }
+      .task-row { padding: 6px 0; }
+      .task-row:nth-child(n+4) { display: none; }
+      .task-row p { font-size: 11px; }
+      .float-note { display: none; }
+      .orbit { width: 420px; height: 420px; }
+      .section-head { margin-bottom: 32px; }
+      .section-head h2 { font-size: 40px; }
+      .step-row { grid-template-columns: 34px 1fr; }
+      .step-row > span:last-child { grid-column: 2; }
+      .session-ui { min-height: 430px; }
+      .session-main { padding: 17px; }
+      .recording-card, .feedback-card, .challenge-card, .pk-card, .progress-board { border-radius: 23px; padding: 22px; }
+      .recording-card { min-height: 470px; }
+      .record-topic { font-size: 32px; }
+      .waveform { margin: 34px 0 20px; }
+      .score { width: 86px; height: 86px; }
+      .score b { font-size: 28px; }
+      .metric-row { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+      .metric { padding: 11px 8px; }
+      .metric strong { font-size: 18px; }
+      .fix-row { grid-template-columns: 1fr; gap: 3px; padding: 11px 0; }
+      .fix-row span:last-child { text-align: left; }
+      .fix-row i { display: none; }
+      .chart-head { align-items: start; flex-direction: column; gap: 5px; }
+      .line-chart { height: 190px; }
+      .stat-grid strong { font-size: 22px; }
+      .pk-versus { gap: 8px; }
+      .pk-avatar { width: 54px; height: 54px; }
+      .limit-row { grid-template-columns: 1fr; gap: 7px; }
+      footer.site-footer { min-height: 100svh; padding: 108px 0 calc(32px + env(safe-area-inset-bottom)); }
+      .footer-cta { padding-bottom: 60px; }
+      .footer-cta h2 { font-size: clamp(58px, 19vw, 86px); }
+      .footer-cta .btn { width: 100%; }
+      .footer-links { display: grid; grid-template-columns: 1fr 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <div class="site-wrap">
+      <a class="brand" href="#top" aria-label="开口首页"><span class="brand-mark" aria-hidden="true"></span>开口</a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="#loop">训练闭环</a>
+        <a href="#speak">口语反馈</a>
+        <a href="#progress">进步记录</a>
+        <a href="#challenge">21 天挑战</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="plain" href="app.html">网页版</a>
+        <a class="btn btn--primary" href="app.html">开始今日练习</a>
+        <button class="menu-toggle" type="button" aria-label="打开导航" aria-expanded="false"><span class="sr-only">菜单</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-h">
+      <div class="site-wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">给学过多年英语、却还不敢开口的人</p>
+          <h1 id="hero-h">英语口语训练营。<span>今天就说。</span></h1>
+          <p class="hero-lead">从粗听、精读到梳理框架，再不看稿讲一遍。一次练习只占 40 分钟，录音和反馈都会留下。</p>
+          <div class="hero-actions">
+            <a class="btn btn--primary" href="app.html">开始今日练习 <span aria-hidden="true">↗</span></a>
+            <button class="btn btn--secondary" type="button" data-install>安装到手机</button>
+          </div>
+          <ul class="hero-facts" aria-label="产品信息">
+            <li><strong>5 步</strong><span>每日完整闭环</span></li>
+            <li><strong>40 分钟</strong><span>推荐练习时长</span></li>
+            <li><strong>21 天</strong><span>打卡与好友 PK</span></li>
+          </ul>
+        </div>
+        <div class="hero-visual" aria-label="开口应用的今日计划界面">
+          <div class="orbit" aria-hidden="true"></div>
+          <div class="float-note float-note--one"><strong>今天排了 4 项</strong>从粗听到 AI 复盘，刚好 40 分钟。</div>
+          <div class="float-note float-note--two"><strong>今日完成 62%</strong>已经有 3 条真实录音，继续开口。</div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status"><span>9:41</span><span>5G&nbsp;&nbsp;100%</span></div>
+              <div class="phone-appbar">
+                <div><div style="font-size:11px;color:#506478">11 月 10 日 · 周一</div><div class="hello">早上好，Lynn</div></div>
+                <div class="avatar">LY</div>
+              </div>
+              <div class="phone-content">
+                <div class="today-card">
+                  <div class="mini-row">
+                    <div><small>今日计划</small><h3>把昨天那段<br>讲成自己的话</h3></div>
+                    <div class="progress-dial"><span>25′</span></div>
+                  </div>
+                  <div class="task-list">
+                    <div class="task-row done"><span class="check">✓</span><p>粗听 2 遍，听出大意</p><em>10′</em></div>
+                    <div class="task-row done"><span class="check">✓</span><p>精读文稿，收 3 个生词</p><em>15′</em></div>
+                    <div class="task-row"><span class="check"></span><p>梳理框架，不看稿复述</p><em>10′</em></div>
+                    <div class="task-row"><span class="check"></span><p>看 AI 分析，改 2 处语法</p><em>5′</em></div>
+                  </div>
+                </div>
+              </div>
+              <div class="phone-bottom" aria-hidden="true"><span>⌂</span><span>▤</span><span class="active">●</span><span>⌁</span><span>◯</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="loop" aria-labelledby="loop-h">
+      <div class="site-wrap">
+        <div class="section-head">
+          <div><span class="section-index">01 / 五步闭环</span><h2 id="loop-h">每天，只走这五步。</h2></div>
+          <p>选一段真正想听的素材。先听懂，再拆结构，最后合上稿子自己讲。每一步都在同一个练习里完成。</p>
+        </div>
+        <div class="loop-grid">
+          <div class="step-list">
+            <div class="step-row"><span class="step-num">01</span><strong>粗听素材</strong><span>原速或 0.75×</span></div>
+            <div class="step-row"><span class="step-num">02</span><strong>精读文稿</strong><span>点词查义</span></div>
+            <div class="step-row"><span class="step-num">03</span><strong>梳理框架</strong><span>三层导图</span></div>
+            <div class="step-row"><span class="step-num">04</span><strong>不看稿开口</strong><span>录音与转写</span></div>
+            <div class="step-row"><span class="step-num">05</span><strong>复盘重讲</strong><span>具体到句子</span></div>
+          </div>
+          <div class="app-window" aria-label="素材练习界面演示">
+            <div class="browser-bar"><i></i><i></i><i></i><span>speak.today / session</span></div>
+            <div class="session-ui">
+              <aside class="session-side">
+                <p>今日练习</p>
+                <a class="active" href="app.html">▶&nbsp;&nbsp;Friends S1·01</a>
+                <a href="app.html">▤&nbsp;&nbsp;精读文稿</a>
+                <a href="app.html">⌘&nbsp;&nbsp;思维导图</a>
+                <a href="app.html">●&nbsp;&nbsp;开口说</a>
+                <a href="app.html">✓&nbsp;&nbsp;AI 复盘</a>
+              </aside>
+              <div class="session-main">
+                <div class="session-title"><h3>先听两遍，不查词</h3><span>第一遍 02:36 / 08:42</span></div>
+                <div class="video-stage"><span class="play" aria-hidden="true">▶</span></div>
+                <div class="track"><span>02:36</span><div class="track-line"><i></i></div><span>08:42</span><b>1×</b></div>
+                <div class="session-note">
+                  <p>听到 3 个反复出现的表达就够了。现在别停下来查词，先把人物关系和冲突听明白。</p>
+                  <button class="mini-btn" type="button" onclick="location.href='app.html'">进入精读</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="speak" aria-labelledby="speak-h">
+      <div class="site-wrap">
+        <div class="section-head">
+          <div><span class="section-index">02 / 口语反馈</span><h2 id="speak-h">不再只说“再练练”。</h2></div>
+          <p>录完就拿到综合分、CEFR 等级、语速、词汇丰富度和口头禅次数。语法问题会落到原句与改法。</p>
+        </div>
+        <div class="feedback-layout">
+          <div class="recording-card">
+            <div class="meta"><span>TOPIC 03</span><span class="live-dot">REC 01:24</span></div>
+            <p class="record-topic">Describe a habit you want to build, and explain why it matters.</p>
+            <div class="waveform" aria-hidden="true">
+              <i style="height:26px"></i><i style="height:44px"></i><i style="height:62px"></i><i style="height:82px"></i><i style="height:45px"></i><i style="height:28px"></i><i style="height:69px"></i><i style="height:94px"></i><i style="height:52px"></i><i style="height:30px"></i><i style="height:64px"></i><i style="height:86px"></i><i style="height:41px"></i><i style="height:25px"></i><i style="height:58px"></i><i style="height:75px"></i><i style="height:48px"></i><i style="height:27px"></i><i style="height:59px"></i><i style="height:39px"></i>
+            </div>
+            <p class="transcript-preview">“I want to build a habit of speaking English every morning. I usually read aloud for ten minutes before breakfast, because it helps me feel...”</p>
+          </div>
+          <div class="feedback-card">
+            <div class="score-top">
+              <div class="score"><div><b>78</b><small>B1+</small></div></div>
+              <div class="score-copy"><h3>内容清楚，连接词可以更自然。</h3><p>你完整讲出了习惯、原因和做法。下一次把句子之间的停顿缩短一点。</p></div>
+            </div>
+            <div class="metric-row">
+              <div class="metric"><small>语速</small><strong>112</strong><small>wpm</small></div>
+              <div class="metric"><small>词汇丰富度</small><strong>64%</strong></div>
+              <div class="metric"><small>口头禅</small><strong>3</strong><small>次</small></div>
+            </div>
+            <div class="fix-row"><span>“I usually read aloud...”</span><i>→</i><span>“I try to read aloud...”</span></div>
+            <div class="fix-row"><span>“because it help me...”</span><i>→</i><span>“because it helps me...”</span></div>
+            <a class="btn btn--secondary" style="width:100%;margin-top:18px" href="app.html">去看完整反馈</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="progress" aria-labelledby="progress-h">
+      <div class="site-wrap">
+        <div class="section-head">
+          <div><span class="section-index">03 / 进步记录</span><h2 id="progress-h">进步不是感觉，是记录。</h2></div>
+          <p>每一次得分、每一条录音、每一天开口多久，都会汇成你自己的学习档案。</p>
+        </div>
+        <div class="progress-board">
+          <div class="chart-head"><h3>最近 7 次口语得分</h3><p>本周平均 74 · 较上周 +6</p></div>
+          <svg class="line-chart" viewBox="0 0 900 250" role="img" aria-label="最近七次口语得分从 62 分上升到 81 分">
+            <line class="grid-line" x1="0" y1="32" x2="900" y2="32"></line><line class="grid-line" x1="0" y1="104" x2="900" y2="104"></line><line class="grid-line" x1="0" y1="176" x2="900" y2="176"></line><line class="grid-line" x1="0" y1="226" x2="900" y2="226"></line>
+            <path class="area" d="M20 168 C130 154,154 137,260 139 S385 118,470 118 S575 98,660 90 S770 65,875 54 L875 226 L20 226 Z"></path>
+            <path class="graph" d="M20 168 C130 154,154 137,260 139 S385 118,470 118 S575 98,660 90 S770 65,875 54"></path>
+            <circle class="point" cx="20" cy="168" r="5"></circle><circle class="point" cx="260" cy="139" r="5"></circle><circle class="point" cx="470" cy="118" r="5"></circle><circle class="point" cx="660" cy="90" r="5"></circle><circle class="point" cx="875" cy="54" r="5"></circle>
+            <text x="20" y="248">10.06</text><text x="250" y="248">10.12</text><text x="460" y="248">10.19</text><text x="650" y="248">10.26</text><text x="840" y="248">11.02</text>
+          </svg>
+          <div class="stat-grid">
+            <div><strong>18</strong><span>累计录音</span></div>
+            <div><strong>74</strong><span>平均口语分</span></div>
+            <div><strong>126′</strong><span>累计开口</span></div>
+          </div>
+          <div class="week-bars" aria-label="最近 14 天每天开口时长">
+            <i style="height:24%"></i><i style="height:55%"></i><i style="height:32%"></i><i style="height:76%"></i><i style="height:46%"></i><i style="height:88%"></i><i style="height:66%"></i><i style="height:41%"></i><i style="height:72%"></i><i style="height:35%"></i><i style="height:90%"></i><i style="height:58%"></i><i style="height:78%"></i><i style="height:53%"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="challenge" aria-labelledby="challenge-h">
+      <div class="site-wrap">
+        <div class="section-head">
+          <div><span class="section-index">04 / 一起坚持</span><h2 id="challenge-h">一个人练，也有人陪。</h2></div>
+          <p>发起 21 天挑战，每天打卡一格。两个人用同一道题各自开口，AI 分别评分，再判一次胜负。</p>
+        </div>
+        <div class="challenge-grid">
+          <div class="challenge-card">
+            <span class="kicker">21 DAY SPEAKING ROOM · 0719AK</span>
+            <h3>连续开口<br>第 12 天</h3>
+            <p>你和 Lynn 今天都完成了计划。还差 9 天，这间挑战房就会点亮全部格子。</p>
+            <div class="day-grid" aria-label="21 天打卡墙，完成 12 天">
+              <span class="done">01</span><span class="done">02</span><span class="done">03</span><span class="done">04</span><span class="done">05</span><span class="done">06</span><span class="done">07</span>
+              <span class="done">08</span><span class="done">09</span><span class="done">10</span><span class="done">11</span><span class="today done">12</span><span>13</span><span>14</span>
+              <span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span>
+            </div>
+          </div>
+          <div class="pk-card">
+            <span class="section-index">TODAY'S PK · 10 MIN</span>
+            <div class="pk-versus">
+              <div class="pk-person"><span class="pk-avatar">LY</span><strong>Lynn</strong><span>B1 · 76</span></div>
+              <span class="vs">VS</span>
+              <div class="pk-person"><span class="pk-avatar" style="background:#062b8a;color:#e6dbc7">Y</span><strong>你</strong><span>B1 · 78</span></div>
+            </div>
+            <div class="pk-question"><small>AI TOPIC</small>Is it better to build one strong habit at a time, or to improve many small habits together?</div>
+            <a class="btn btn--primary" style="width:100%;margin-top:20px" href="app.html">加入这场 PK</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="limits" aria-labelledby="limits-h">
+      <div class="site-wrap limits-grid">
+        <div class="limits-intro"><span class="section-index">05 / 先讲清楚</span><h2 id="limits-h">工具能做什么，也说明白。</h2><p>这个版本重点把手机上的每日练习、录音和复盘做顺。第三方平台内容与云端账号会明确标注，不假装自动完成。</p></div>
+        <div class="limit-rows">
+          <div class="limit-row"><strong>字幕与素材</strong><p>内置服务端会尝试读取 B 站／YouTube 已有英文 CC 字幕；视频没有字幕时，再复制字幕或导入 SRT。</p></div>
+          <div class="limit-row"><strong>语音转写</strong><p>Chrome、Edge 支持实时转写；Safari、Firefox 不稳定时，可以直接输入讲稿后再分析。</p></div>
+          <div class="limit-row"><strong>AI 服务</strong><p>本地体验使用可解释的规则反馈。接上你的大模型接口后，才会启用完整语法与内容点评。</p></div>
+          <div class="limit-row"><strong>数据与账号</strong><p>注册和验证码流程已提供，当前账号与录音保存在这台设备。真实短信、微信 OAuth 与跨设备 PK 需要正式服务端配置。</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div class="site-wrap">
+      <div class="footer-cta">
+        <h2>先开口，<br>再变好。</h2>
+        <a class="btn btn--light" href="app.html">开始今天的 40 分钟 <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="footer-meta">
+        <p>英语口语训练营 · 粗听、精读、梳理、开口、复盘。你的录音默认只留在这台设备。</p>
+        <nav class="footer-links" aria-label="页脚导航">
+          <a href="#loop">训练闭环</a><a href="#speak">口语反馈</a><a href="#progress">进步记录</a><a href="app.html">打开应用</a><a href="privacy.html">隐私说明</a><a href="terms.html">使用条款</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  <script>
+    const toast = document.querySelector('[data-toast]');
+    const showToast = (text) => {
+      toast.textContent = text;
+      toast.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+    };
+    let installPrompt;
+    window.addEventListener('beforeinstallprompt', event => {
+      event.preventDefault();
+      installPrompt = event;
+    });
+    document.querySelectorAll('[data-install]').forEach(button => {
+      button.addEventListener('click', async () => {
+        if (!installPrompt) {
+          showToast('请用 Chrome 或 Edge 打开，再从浏览器菜单选择“安装应用”。');
+          return;
+        }
+        installPrompt.prompt();
+        await installPrompt.userChoice;
+        installPrompt = null;
+      });
+    });
+    const menuButton = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    menuButton?.addEventListener('click', () => {
+      const open = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!open));
+      navLinks.style.cssText = open ? '' : 'display:flex;position:absolute;left:0;right:0;top:62px;padding:18px 20px 24px;background:#e6dbc7;border-bottom:1px solid #c9bca7;flex-direction:column;align-items:flex-start;gap:18px';
+    });
+    navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      menuButton?.setAttribute('aria-expanded', 'false');
+      if (innerWidth <= 960) navLinks.style.cssText = '';
+    }));
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    }
+  </script>
+</body>
+</html>
