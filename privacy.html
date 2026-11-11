@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>开口 · 隐私说明</title>
+  <link rel="icon" href="icons/favicon.svg"><link rel="stylesheet" href="assets/system.css">
+  <style>
+    :root{--p-bg:#e6dbc7;--p-surface:#ddd0b9;--p-ink:#062b8a;--p-muted:#3253a4;--p-accent:#062b8a;--p-accent-ink:#e6dbc7;--p-action:#062b8a;--p-action-ink:#e6dbc7;--font-display:"Familjen Grotesk","Microsoft YaHei",sans-serif;--font-text:"Familjen Grotesk","Microsoft YaHei",sans-serif}
+    body{padding:32px 0 72px}main{max-width:760px;margin:auto}h1{font-size:clamp(42px,8vw,76px);line-height:1;margin-bottom:40px}h2{font-size:24px;margin:36px 0 10px}p,li{font-size:16px;line-height:1.8;color:var(--p-ink)}li+li{margin-top:8px}a{text-decoration:underline;text-underline-offset:4px}
+  </style>
+</head>
+<body><main class="wrap"><a href="index.html">← 返回开口</a><h1>隐私说明</h1><p>本版本是保存在浏览器内的本地体验版。你的账号、计划、文稿、导图、昵称、水平估算与录音信息保存在当前设备的 localStorage；音频和本地素材保存在 IndexedDB。</p><h2>账号与微信绑定</h2><p>当前验证码在浏览器本机生成并显示，不会通过短信网络发送；微信绑定仅保存本机演示状态。真实短信服务和微信 OAuth 需要正式部署后，才会收集并处理对应账号信息。</p><h2>录音与麦克风</h2><p>只有在你点击录音按钮后，网页才会请求麦克风权限。录音文件不会自动上传到服务器。删除一条录音记录时，本机对应的音频备份也会删除。</p><h2>网络与第三方链接</h2><p>选择“从收藏视频生成文稿”时，附带的本地服务端会访问对应 B 站或 YouTube 页面，尝试读取公开的视频标题与英文字幕。不会下载视频文件。没有字幕或服务端无法访问网站时会提示手动导入。</p><h2>本地通知</h2><p>通知权限由浏览器管理，提醒功能需要页面处于打开状态。当前版本没有服务端定时任务。</p><h2>数据导出与删除</h2><p>你可以在“我的”页面导出 JSON 数据，或清空全部本机数据。清空后无法恢复。</p><p class="muted">更新日期：2026 年 11 月 10 日</p></main></body>
+</html>
